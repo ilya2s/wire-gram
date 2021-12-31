@@ -40,10 +40,10 @@ Visit https://core.telegram.org/ for more details.
 
 ## Run wire-gram
 
-#### Run from terminal
+### Run from terminal
 To run wire-gram from your terminal, you need to run the ```wire-gram.py``` python script.
 
-If you add the ```-i``` or ```-id``` parameter, wire-gram will print the ___ID__ of all your active Telegram chats :
+If you add the ```-i``` or ```-id``` parameter, wire-gram will print the __ID__ of all your active Telegram chats :
 
 ```bash
 python3 wire-gram.py -i
@@ -59,12 +59,12 @@ For message forwarding you need to run the script without any arguments :
 python3 wire-gram.py
 ```
 
-##### Deploy to Heroku
+### Deploy to Heroku
 wire-gram can easily be deployed to Heroku by following their guide : [Getting Started on Heroku with Python](https://devcenter.heroku.com/articles/getting-started-with-python).
 
 __runtime.txt__ declares wich version of python you're using && __requirements.txt__ declares the dependancies.
 
-##### Dynos
+#### Dynos
 Heroku runs your program on a web dyno(thread) by default. wire-gram is not at that stage yet, we have to run it on a background __worker__ dyno.
 
  After creating the Heroku app and deploying the script you need to run the following commands :
