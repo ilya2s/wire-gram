@@ -8,6 +8,7 @@ from pyrogram.methods.messages import send_message
 from pyrogram.types.messages_and_media.message import Message
 from pyrogram.types import Photo
 import os
+import argparse
 
 
 # ----------- CONFIG ---------- #
@@ -51,8 +52,7 @@ wire_gram = """
 print(wire_gram)
 
 
-# Prints all chat IDs - USE THIS AS A PARAMETER OF app.run() {app.run(getAllChatIDs())} if you want to get the ID of all your chats
-# You should comment the @app.on_message handler section to use this
+# Prints all chat IDs
 async def getAllChatIDs():
     async with app:
         for x in  await app.get_dialogs():
@@ -170,19 +170,22 @@ def sendMessage(client, parsedMessage):
             text = parsedMessage.text
         )        
 
-# COMMENT THIS SECTION IF YOU WANT TO PRINT ALL CHATS IDs
-# vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-@app.on_message((filters.chat(SOURCE_CHAT)) & (~filters.regex("IGNORE ANY MESSAGE THAT CONTAINS THIS STRING")))
-def my_handler(client, message):
-    
-    parsedMessage = parseMessage(message)
 
-    sendMessage(client, parsedMessage)
+# Creates "--id" parameter for command line
+parser = argparse.ArgumentParser(description='Print IDs or Forward messages')
+parser.add_argument('-i', '--id',action='store_true',  help='Print the id of all current chats')
+args = parser.parse_args()
 
-    print("=====================================================================")
-    print("                                                                     ")
-    print(message)
-    print("                                                                     ")
-    print("=====================================================================")
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-app.run()
+if args.id:
+    app.run(getAllChatIDs())
+else:
+    @app.on_message((filters.chat(SOURCE_CHAT)) & (~filters.regex("IGNORE ANY MESSAGE THAT CONTAINS THIS STRING")))
+
+
+    def my_handler(client, message):
+        parsedMessage = parseMessage(message)
+        sendMessage(client, parsedMessage)
+        print("MESSAGE SENT")
+
+
+    app.run()
